@@ -1,0 +1,22 @@
+{
+  "name": "jetbrains/phpstormcraftworkshop",
+  "description": "PhpStorm craft CMS workshop project",
+  "version": "0.1",
+  "type": "craft-plugin",
+  "minimum-stability": "dev",
+  "require": {
+    "craftcms/cms": "3.0.14"
+  },
+  "autoload": {
+    "psr-4": {
+      "workshop\\": "src/"
+    }
+  },
+  "support": {
+    "email": "andrey.sokolov@jetbrains.com"
+  },
+  "extra": {
+    "handle": "phpstorm-craft-workshop",
+    "name": "PhpStorm Craft CMS Workshop plugin"
+  }
+}
