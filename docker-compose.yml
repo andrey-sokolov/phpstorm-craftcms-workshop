@@ -1,0 +1,25 @@
+version: '2'
+services:
+  server:
+    build: ./php-apache-craft-xdebug
+    depends_on:
+      - mysql
+    ports:
+    - "8081:80"
+    environment:
+      DB_HOST: mysql
+      DB_DRIVER: mysql
+      DB_SERVER: mysql
+      DB_USER: jetbrains
+      DB_DATABASE: jetbrains
+      DB_PASSWORD: jetbrains
+      DB_PORT: '3306'
+      #change the line below with your IP address that is visible from Docker
+      #See README for instruction about how to get the right IP address
+      XDEBUG_CONFIG: remote_host=172.20.209.67
+  mysql:
+    build: ./mysql
+    ports:
+    - "33056:3306"
+    volumes:
+    - ./data:/var/lib/mysql
