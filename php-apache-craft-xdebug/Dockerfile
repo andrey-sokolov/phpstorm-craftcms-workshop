@@ -16,5 +16,5 @@ RUN docker-php-ext-install gd
 RUN docker-php-ext-install pdo_mysql
 RUN a2enmod rewrite
 RUN php composer.phar create-project craftcms/craft /var/www/html/craft
-RUN chmod 774 -R /var/www/html/craft
+RUN chmod 777 -R /var/www/html/craft
 RUN /var/www/html/craft/craft setup/security-key
