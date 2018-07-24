@@ -6,10 +6,8 @@ RUN apt-get install -y libpng-dev
 RUN apt-get install -y --no-install-recommends git zip
 
 RUN curl --silent --show-error https://getcomposer.org/installer | php
-RUN apt-get update && apt-get install curl && apt-get install unzip
-RUN apt-get update && \
-    apt-get install -y \
-        zlib1g-dev
+RUN apt-get update && apt-get install -y curl && apt-get install -y unzip
+RUN apt-get install -y zlib1g-dev
 RUN docker-php-ext-install zip
 RUN docker-php-ext-enable xdebug
 RUN docker-php-ext-install gd
