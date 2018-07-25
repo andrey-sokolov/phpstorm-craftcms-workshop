@@ -16,3 +16,4 @@ RUN a2enmod rewrite
 RUN php composer.phar create-project craftcms/craft /var/www/html/craft
 RUN chmod 777 -R /var/www/html/craft
 RUN /var/www/html/craft/craft setup/security-key
+RUN cd /var/www/html/craft && php ../composer.phar config repositories.plugin path plugins/workshop && php ../composer.phar config minimum-stability dev
