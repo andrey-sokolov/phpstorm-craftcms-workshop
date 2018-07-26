@@ -18,5 +18,8 @@
   "extra": {
     "handle": "phpstorm-craft-workshop",
     "name": "PhpStorm Craft CMS Workshop plugin"
+  },
+  "config": {
+    "vendor-dir": "../../vendor"
   }
 }

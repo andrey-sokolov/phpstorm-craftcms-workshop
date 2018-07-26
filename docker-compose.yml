@@ -18,7 +18,7 @@ services:
       #See README for instruction about how to get the right IP address
       XDEBUG_CONFIG: remote_host=172.20.209.67
     volumes:
-    - ./plugin:/var/www/html/craft/plugins/workshop
+    - ./php-apache-craft-xdebug/plugin:/var/www/html/craft/plugins/workshop
   mysql:
     build: ./mysql
     ports:

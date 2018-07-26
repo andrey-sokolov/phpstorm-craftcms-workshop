@@ -17,3 +17,6 @@ RUN php composer.phar create-project craftcms/craft /var/www/html/craft
 RUN chmod 777 -R /var/www/html/craft
 RUN /var/www/html/craft/craft setup/security-key
 RUN cd /var/www/html/craft && php ../composer.phar config repositories.plugin path plugins/workshop && php ../composer.phar config minimum-stability dev
+ADD plugin /var/www/html/craft/plugins/workshop
+WORKDIR craft
+RUN php ../composer.phar require jetbrains/phpstormcraftworkshop
