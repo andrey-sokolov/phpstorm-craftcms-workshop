@@ -12,3 +12,15 @@ To work with Plugin files - install dependencies from composer.json to get code 
 
 
 
+*Language syntax*
+```
+<file> ::= statementList
+<statementList> ::= <statement> | <statementList>
+<statement> ::= <echoStatement> | <assignmentStatement>
+<echoStatement> ::= "echo " <expression>
+<assignmentStatement> ::= <variable> "=" <expression>
+<expression> ::= <scalarExpression> | <binaryExpression>
+<binaryExpression> ::= <scalarExpression> ("+" | "-" | "/" | "*") (<scalarExpression> | <binaryExpression>)
+<scalarExpression> ::= <number> | <identifier>
+<number> ::= ["-"]digit+
+```
