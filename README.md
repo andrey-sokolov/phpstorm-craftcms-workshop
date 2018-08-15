@@ -14,10 +14,10 @@ To work with Plugin files - install dependencies from composer.json to get code 
 
 *Language syntax*
 ```
-<file> ::= statementList
-<statementList> ::= <statement> | <statementList>
+<file> ::= <statementList>
+<statementList> ::= <statement> | <statement><statementList>
 <statement> ::= <echoStatement> | <assignmentStatement>
-<echoStatement> ::= "echo " <expression>
+<echoStatement> ::= "echo" <expression>
 <assignmentStatement> ::= <variable> "=" <expression>
 <expression> ::= <scalarExpression> | <binaryExpression>
 <binaryExpression> ::= <scalarExpression> ("+" | "-" | "/" | "*") (<scalarExpression> | <binaryExpression>)
