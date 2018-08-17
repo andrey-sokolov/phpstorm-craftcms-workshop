@@ -64,17 +64,19 @@ class Lexer {
 
     private function parseToken() {
         $lastToken = null;
+        $lastIndex = 0;
         while ($this->hasCharsLeft()) {
             $this->index++;
             $token = $this->locateToken();
             if ($token === null) {
+                $lastIndex = $this->index;
                 $this->index--;
                 break;
             }
             $lastToken = $token;
         }
         if ($lastToken == null) {
-            throw new Exception("Invalid token: " . substr($this->content, $this->startIndex, $this->index));
+            throw new \Exception("Invalid token: " . substr($this->content, $this->startIndex, $lastIndex - $this->startIndex));
         }
         $this->tokens[] = $lastToken;
     }
