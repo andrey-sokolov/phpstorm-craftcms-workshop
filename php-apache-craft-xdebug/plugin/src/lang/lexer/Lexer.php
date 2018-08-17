@@ -31,7 +31,7 @@ class Lexer {
             if (empty($tokenValue)) return false;
             if (!ctype_alpha(substr($tokenValue, 0, 1))) return false;
             $tail = substr($tokenValue, 1);
-            return empty($tail) || ctype_alpha($tail);
+            return empty($tail) || ctype_alnum($tail);
         });
 
         $this->registerScalar(TokenTypes::PLUS, "+");
