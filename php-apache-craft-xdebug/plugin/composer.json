@@ -5,7 +5,8 @@
   "type": "craft-plugin",
   "minimum-stability": "dev",
   "require": {
-    "craftcms/cms": "^3.0.0"
+    "craftcms/cms": "^3.0.0",
+    "phpunit/phpunit": "^7"
   },
   "autoload": {
     "psr-4": {
