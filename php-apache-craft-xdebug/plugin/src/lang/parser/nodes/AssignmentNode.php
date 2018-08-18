@@ -8,14 +8,14 @@ class AssignmentNode extends ASTNode {
 
     /**
      * AssignmentNode constructor.
-     * @param ASTNode $variable
+     * @param VariableNode $variable
      * @param ASTNode $expression
      */
     public function __construct($variable, $expression) {
         parent::__construct([$variable, $expression]);
     }
 
-    public function getVariable() {
+    public function getVariable(): VariableNode {
         return $this->children[0];
     }
 

@@ -10,6 +10,6 @@ class TokenTypes {
     const MULTIPLY = 5;
     const NUMBER = 6;
     const ECHO = 7;
-    const EQUALS = 7;
-    const WHITESPACE = 8;
+    const EQUALS = 8;
+    const WHITESPACE = 9;
 }

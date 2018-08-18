@@ -18,10 +18,10 @@ class Parser {
      * @return FileNode
      */
     public static function parse($tokens) {
-        return self::parseProgram(new SkippingWhitespacesIterator($tokens));
+        return self::parseFile(new SkippingWhitespacesIterator($tokens));
     }
 
-    private static function parseProgram(SkippingWhitespacesIterator $tokens) {
+    private static function parseFile(SkippingWhitespacesIterator $tokens) {
         $statements = [];
         while ($tokens->hasNext()) {
             $statements[] = self::parseStatement($tokens);
