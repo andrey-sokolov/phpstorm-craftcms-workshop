@@ -4,28 +4,29 @@ namespace workshop\lang\generator;
 
 use workshop\lang\ASTNodeVisitor;
 use workshop\lang\lexer\TokenTypes;
+use workshop\lang\parser\nodes\AssignmentNode;
+use workshop\lang\parser\nodes\BinaryStatementNode;
+use workshop\lang\parser\nodes\EchoNode;
 use workshop\lang\parser\nodes\FileNode;
+use workshop\lang\parser\nodes\NumberNode;
+use workshop\lang\parser\nodes\VariableNode;
 
 class CodeGenerator extends ASTNodeVisitor {
     private $buffer = "";
 
-    /**
-     * @param FileNode $file
-     * @return string
-     */
-    public function generateCode($file) {
+    public function generateCode(FileNode $file): string {
         $this->buffer .= "<?php ";
         $file->visit($this);
         return $this->buffer;
     }
 
-    public function visitFile($node) {
+    public function visitFile(FileNode $node) {
         foreach ($node->getChildren() as $statement) {
             $statement->visit($this);
         }
     }
 
-    public function visitBinaryStatement($node) {
+    public function visitBinaryStatement(BinaryStatementNode $node) {
         $node->getLeft()->visit($this);
         $operationType = $node->getOperationType();
         if ($operationType == TokenTypes::PLUS) {
@@ -43,21 +44,21 @@ class CodeGenerator extends ASTNodeVisitor {
         $node->getRight()->visit($this);
     }
 
-    public function visitEcho($node) {
+    public function visitEcho(EchoNode $node) {
         $this->buffer .= "echo ";
         $node->getArgument()->visit($this);
         $this->buffer .= ";";
     }
 
-    public function visitVariable($node) {
+    public function visitVariable(VariableNode $node) {
         $this->buffer .= "$" . $node->getName();
     }
 
-    public function visitNumber($node) {
+    public function visitNumber(NumberNode $node) {
         $this->buffer .= $node->getValue();
     }
 
-    public function visitAssignment($node) {
+    public function visitAssignment(AssignmentNode $node) {
         $node->getVariable()->visit($this);
         $this->buffer .= "=";
         $node->getExpression()->visit($this);

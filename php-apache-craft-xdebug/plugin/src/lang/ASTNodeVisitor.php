@@ -10,45 +10,27 @@ use workshop\lang\parser\nodes\NumberNode;
 use workshop\lang\parser\nodes\VariableNode;
 
 abstract class ASTNodeVisitor {
-    /**
-     * @param FileNode $node
-     */
-    public function visitFile($node) {
+    public function visitFile(FileNode $node) {
 
     }
 
-    /**
-     * @param AssignmentNode $node
-     */
-    public function visitAssignment($node) {
+    public function visitAssignment(AssignmentNode $node) {
 
     }
 
-    /**
-     * @param BinaryStatementNode $node
-     */
-    public function visitBinaryStatement($node) {
+    public function visitBinaryStatement(BinaryStatementNode $node) {
 
     }
 
-    /**
-     * @param EchoNode $node
-     */
-    public function visitEcho($node) {
+    public function visitEcho(EchoNode $node) {
 
     }
 
-    /**
-     * @param VariableNode $node
-     */
-    public function visitVariable($node) {
+    public function visitVariable(VariableNode $node) {
 
     }
 
-    /**
-     * @param NumberNode $node
-     */
-    public function visitNumber($node) {
+    public function visitNumber(NumberNode $node) {
 
     }
 }

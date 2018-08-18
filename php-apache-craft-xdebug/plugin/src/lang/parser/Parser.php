@@ -6,6 +6,7 @@ use Exception;
 use workshop\lang\lexer\Token;
 use workshop\lang\lexer\TokenTypes;
 use workshop\lang\parser\nodes\AssignmentNode;
+use workshop\lang\parser\nodes\ASTNode;
 use workshop\lang\parser\nodes\BinaryStatementNode;
 use workshop\lang\parser\nodes\EchoNode;
 use workshop\lang\parser\nodes\FileNode;
@@ -13,15 +14,11 @@ use workshop\lang\parser\nodes\NumberNode;
 use workshop\lang\parser\nodes\VariableNode;
 
 class Parser {
-    /**
-     * @param Token[] $tokens
-     * @return FileNode
-     */
-    public static function parse($tokens) {
+    public static function parse(array $tokens): FileNode {
         return self::parseFile(new SkippingWhitespacesIterator($tokens));
     }
 
-    private static function parseFile(SkippingWhitespacesIterator $tokens) {
+    private static function parseFile(SkippingWhitespacesIterator $tokens): FileNode {
         $statements = [];
         while ($tokens->hasNext()) {
             $statements[] = self::parseStatement($tokens);
@@ -29,7 +26,7 @@ class Parser {
         return new FileNode($statements);
     }
 
-    private static function parseStatement(SkippingWhitespacesIterator $tokens) {
+    private static function parseStatement(SkippingWhitespacesIterator $tokens): ASTNode {
         $currentType = $tokens->current()->getType();
         if ($currentType == TokenTypes::ECHO) {
             return self::parseEchoStatement($tokens);
@@ -43,7 +40,7 @@ class Parser {
         return self::parseExpression($tokens);
     }
 
-    private static function parseExpression(SkippingWhitespacesIterator $tokens) {
+    private static function parseExpression(SkippingWhitespacesIterator $tokens): ASTNode {
         $currentType = $tokens->current()->getType();
         if ($currentType == TokenTypes::IDENTIFIER) {
             $statement = self::parseBinaryStatement($tokens);
@@ -62,20 +59,20 @@ class Parser {
         throw new Exception("Parse error: expected digit or identifier, got: " . $tokens->current()->getValue());
     }
 
-    private static function parseEchoStatement(SkippingWhitespacesIterator $tokens) {
+    private static function parseEchoStatement(SkippingWhitespacesIterator $tokens): ?EchoNode {
         $tokens->advance();
         $argument = self::parseExpression($tokens);
         return new EchoNode($argument);
     }
 
-    private static function parseVariable(SkippingWhitespacesIterator $tokens) {
+    private static function parseVariable(SkippingWhitespacesIterator $tokens): ?VariableNode {
         if ($tokens->current()->getType() != TokenTypes::IDENTIFIER) return null;
         $name = $tokens->current()->getValue();
         $tokens->advance();
         return new VariableNode($name);
     }
 
-    private static function parseNumber(SkippingWhitespacesIterator $tokens) {
+    private static function parseNumber(SkippingWhitespacesIterator $tokens): ?NumberNode {
         if ($tokens->current()->getType() == TokenTypes::MINUS) {
             $tokens->advance();
         }
@@ -88,7 +85,7 @@ class Parser {
         return new NumberNode($value);
     }
 
-    private static function parseBinaryStatement(SkippingWhitespacesIterator $tokens) {
+    private static function parseBinaryStatement(SkippingWhitespacesIterator $tokens): ?BinaryStatementNode {
         $mark = $tokens->mark();
         $left = self::parseVariable($tokens);
         if ($left == null) {
@@ -114,7 +111,7 @@ class Parser {
         return null;
     }
 
-    private static function parseAssignment(SkippingWhitespacesIterator $tokens) {
+    private static function parseAssignment(SkippingWhitespacesIterator $tokens): ?AssignmentNode {
         $mark = $tokens->mark();
         $variableNode = self::parseVariable($tokens);
         if ($tokens->current()->getType() == TokenTypes::EQUALS) {
@@ -137,16 +134,12 @@ class SkippingWhitespacesIterator {
     private $tokens;
     private $index = 0;
 
-    /**
-     * SkippingWhitespacesIterator constructor.
-     * @param Token[] $tokens
-     */
     public function __construct(array $tokens) {
         $this->tokens = $tokens;
         $this->skipWhitespaces();
     }
 
-    public function current() {
+    public function current(): Token {
         return $this->tokens[$this->index];
     }
 
@@ -160,7 +153,7 @@ class SkippingWhitespacesIterator {
         $this->skipWhitespacesBackwards();
     }
 
-    public function hasNext() {
+    public function hasNext(): bool {
         $index = $this->index;
         $this->advance();
         $result = $this->index < count($this->tokens);
@@ -180,7 +173,7 @@ class SkippingWhitespacesIterator {
         }
     }
 
-    public function mark() {
+    public function mark(): int {
         return $this->index;
     }
 
