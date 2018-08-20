@@ -2,7 +2,6 @@
 
 namespace workshop\lang\parser;
 
-use Exception;
 use workshop\lang\lexer\Token;
 use workshop\lang\lexer\TokenTypes;
 use workshop\lang\parser\nodes\AssignmentNode;
@@ -37,10 +36,11 @@ class Parser {
                 return $assignment;
             }
         }
-        return self::parseExpression($tokens);
+        return self::parseScalar($tokens);
     }
 
-    private static function parseExpression(SkippingWhitespacesIterator $tokens): ASTNode {
+    private static function parseScalar(SkippingWhitespacesIterator $tokens): ASTNode
+    {
         $currentType = $tokens->current()->getType();
         if ($currentType == TokenTypes::IDENTIFIER) {
             $statement = self::parseBinaryStatement($tokens);
@@ -56,12 +56,12 @@ class Parser {
             }
             return self::parseNumber($tokens);
         }
-        throw new Exception("Parse error: expected digit or identifier, got: " . $tokens->current()->getValue());
+        throw new ParserException("Parse error: expected digit or identifier, got: " . $tokens->current()->getValue());
     }
 
     private static function parseEchoStatement(SkippingWhitespacesIterator $tokens): ?EchoNode {
         $tokens->advance();
-        $argument = self::parseExpression($tokens);
+        $argument = self::parseScalar($tokens);
         return new EchoNode($argument);
     }
 
@@ -73,15 +73,15 @@ class Parser {
     }
 
     private static function parseNumber(SkippingWhitespacesIterator $tokens): ?NumberNode {
+        $negative = false;
         if ($tokens->current()->getType() == TokenTypes::MINUS) {
             $tokens->advance();
         }
-        if ($tokens->current()->getType() != TokenTypes::NUMBER) {
-            $tokens->stepBack();
-            return null;
-        }
         $value = $tokens->current()->getValue();
         $tokens->advance();
+        if ($negative) {
+            $value = $value * -1;
+        }
         return new NumberNode($value);
     }
 
@@ -92,7 +92,7 @@ class Parser {
             $tokens->rollbackTo($mark);
             $left = self::parseNumber($tokens);
         }
-        if ($left == null) throw new Exception("Parse error");
+        if ($left == null) throw new ParserException("Parse error");
         if ($tokens->hasNext()) {
             $operationType = $tokens->current()->getType();
             if ($operationType == TokenTypes::MINUS ||
@@ -100,9 +100,9 @@ class Parser {
                 $operationType == TokenTypes::MULTIPLY ||
                 $operationType == TokenTypes::DIVIDE) {
                 $tokens->advance();
-                $right = self::parseExpression($tokens);
+                $right = self::parseScalar($tokens);
                 if ($right == null) {
-                    throw new Exception("Parse error: expected expression");
+                    throw new ParserException("Parse error: expected expression");
                 }
                 return new BinaryStatementNode($left, $right, $operationType);
             }
@@ -116,9 +116,9 @@ class Parser {
         $variableNode = self::parseVariable($tokens);
         if ($tokens->current()->getType() == TokenTypes::EQUALS) {
             $tokens->advance();
-            $expr = self::parseExpression($tokens);
+            $expr = self::parseScalar($tokens);
             if ($expr == null) {
-                throw new Exception("Parse error: expected expression");
+                throw new ParserException("Parse error: expected expression");
             }
             return new AssignmentNode($variableNode, $expr);
         }

@@ -4,9 +4,9 @@ namespace workshop\lang\generator;
 
 use workshop\lang\ASTNodeVisitor;
 use workshop\lang\lexer\TokenTypes;
+use workshop\lang\parser;
 use workshop\lang\parser\nodes\AssignmentNode;
 use workshop\lang\parser\nodes\BinaryStatementNode;
-use workshop\lang\parser\nodes\EchoNode;
 use workshop\lang\parser\nodes\FileNode;
 use workshop\lang\parser\nodes\NumberNode;
 use workshop\lang\parser\nodes\VariableNode;
@@ -44,7 +44,8 @@ class CodeGenerator extends ASTNodeVisitor {
         $node->getRight()->visit($this);
     }
 
-    public function visitEcho(EchoNode $node) {
+    public function visitEcho(parser\nodes\EchoNode $node)
+    {
         $this->buffer .= "echo ";
         $node->getArgument()->visit($this);
         $this->buffer .= ";";

@@ -13,15 +13,42 @@ use workshop\lang\lexer\Lexer;
 use workshop\lang\lexer\TokenTypes;
 
 class LexerTest extends TestCase {
+    /**
+     * @dataProvider basicTokensProvider
+     */
+    public function testParseBasicTokens($tokenValue, $tokenType)
+    {
+        $tokens = Lexer::parseTokens($tokenValue);
+        $this->assertEquals(1, count($tokens));
+        $this->assertEquals($tokenType, $tokens[0]->getType());
+    }
+
+    public function basicTokensProvider()
+    {
+        return [
+            ["a", TokenTypes::IDENTIFIER],
+            ["1", TokenTypes::NUMBER],
+            [" ", TokenTypes::WHITESPACE],
+            ["+", TokenTypes::PLUS],
+            ["-", TokenTypes::MINUS],
+            ["/", TokenTypes::DIVIDE],
+            ["*", TokenTypes::MULTIPLY],
+            ["=", TokenTypes::EQUALS],
+            ["echo", TokenTypes::ECHO],
+            ["echoecho", TokenTypes::IDENTIFIER],
+        ];
+    }
 
     /**
      * @covers \workshop\lang\lexer\Lexer
      */
-    public function testParseBasicTokens() {
+    public function testParseCompositionOfTokens()
+    {
         $tokens = Lexer::parseTokens("ab + - / * 12 echo =   ");
-        $tokenTypes = array_map(function ($token) {
+        $array_map = array_map(function ($token) {
             return $token->getType();
         }, $tokens);
+        $tokenTypes = $array_map;
         $tokenValues = array_map(function ($token) {
             return $token->getValue();
         }, $tokens);

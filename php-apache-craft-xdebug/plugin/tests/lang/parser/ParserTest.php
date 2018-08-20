@@ -20,7 +20,8 @@ use workshop\lang\parser\nodes\VariableNode;
 use workshop\lang\parser\Parser;
 
 class ParserTest extends TestCase {
-    public function testBinaryStatement() {
+    public function testParseBinaryStatement()
+    {
         $tokens = Lexer::parseTokens("a + 2");
         $fileNode = Parser::parse($tokens);
         $children = $fileNode->getChildren();
@@ -31,7 +32,7 @@ class ParserTest extends TestCase {
 
     /**
      * @covers \workshop\lang\parser\Parser::parseBinaryStatement
-     * @covers \workshop\lang\parser\Parser::parseExpression
+     * @covers \workshop\lang\parser\Parser::parseScalar
      */
     public function testNestedBinaryStatement() {
         $tokens = Lexer::parseTokens("3 - a + 2");
