@@ -1,0 +1,15 @@
+{% import "_includes/forms" as forms %}
+<form method="post" accept-charset="UTF-8" action="https://3v4l.org/new">
+    {{ csrfInput() }}
+    {{ forms.textArea({
+        label: 'Code',
+        id: 'code',
+        name: 'code',
+        required: true,
+        first: true,
+        rows: 10
+    }) }}
+    <input type="submit" class="btn submit" value="{{ 'Evaluate'|t('app') }}">
+
+
+</form>
