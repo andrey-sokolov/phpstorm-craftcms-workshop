@@ -2,6 +2,8 @@
 
 namespace workshop\lang\lexer;
 
+use workshop\lang\parser\ParserException;
+
 class Lexer {
     /**
      * @var Token[]
@@ -68,6 +70,7 @@ class Lexer {
             if ($token == null) break;
             $lastToken = $token;
         }
+        if ($lastToken == null) throw new ParserException();
         $this->tokens[] = $lastToken;
     }
 
@@ -78,6 +81,7 @@ class Lexer {
                 return new Token($tokenValue, $rule->tokenType);
             }
         }
+
         $this->index--;
         return null;
     }

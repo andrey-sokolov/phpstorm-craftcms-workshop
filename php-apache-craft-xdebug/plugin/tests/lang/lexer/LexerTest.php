@@ -34,7 +34,7 @@ class LexerTest extends TestCase {
             ["/", TokenTypes::DIVIDE],
             ["*", TokenTypes::MULTIPLY],
             ["=", TokenTypes::EQUALS],
-            ["echo", TokenTypes::ECHO],
+            ["echo", TokenTypes::IDENTIFIER],
             ["echoecho", TokenTypes::IDENTIFIER],
         ];
     }
@@ -65,7 +65,7 @@ class LexerTest extends TestCase {
             TokenTypes::WHITESPACE,
             TokenTypes::NUMBER,
             TokenTypes::WHITESPACE,
-            TokenTypes::ECHO,
+            TokenTypes::IDENTIFIER,
             TokenTypes::WHITESPACE,
             TokenTypes::EQUALS,
             TokenTypes::WHITESPACE,
@@ -89,14 +89,6 @@ class LexerTest extends TestCase {
             "=",
             "   ",
         ], $tokenValues);
-    }
-
-    /**
-     * @covers \workshop\lang\lexer\Lexer::parseToken
-     */
-    public function testInvalidToken() {
-        $this->expectExceptionMessage("Invalid token: %");
-        Lexer::parseTokens("%");
     }
 
     public function testIdentifierStartsWithAlpha() {
