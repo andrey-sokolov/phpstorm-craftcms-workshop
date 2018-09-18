@@ -1,6 +1,7 @@
 FROM php:7.1-apache
 RUN pecl install xdebug-2.6.0
 RUN echo "xdebug.remote_enable=1" >> /usr/local/etc/php/php.ini
+RUN echo "memory_limit = 256M" >> /usr/local/etc/php/php.ini
 RUN apt-get update
 RUN apt-get install -y libpng-dev
 RUN apt-get install -y --no-install-recommends git zip
