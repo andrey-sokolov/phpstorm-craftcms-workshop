@@ -9,7 +9,6 @@ class TokenTypes {
     const DIVIDE = 4;
     const MULTIPLY = 5;
     const NUMBER = 6;
-    const ECHO = 7;
     const EQUALS = 8;
     const WHITESPACE = 9;
 }

@@ -32,8 +32,6 @@ class Lexer {
         $this->content = $content;
         $this->length = strlen($this->content);
 
-        $this->registerScalar(TokenTypes::ECHO, "echo");
-
         $this->registerScalar(TokenTypes::PLUS, "+");
         $this->registerScalar(TokenTypes::MINUS, "-");
         $this->registerScalar(TokenTypes::MULTIPLY, "*");

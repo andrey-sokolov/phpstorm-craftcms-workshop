@@ -27,9 +27,6 @@ class Parser {
 
     private static function parseStatement(SkippingWhitespacesIterator $tokens): ASTNode {
         $currentType = $tokens->current()->getType();
-        if ($currentType == TokenTypes::ECHO) {
-            return self::parseEchoStatement($tokens);
-        }
         if ($currentType == TokenTypes::IDENTIFIER) {
             $assignment = self::parseAssignment($tokens);
             if ($assignment != null) {
@@ -57,12 +54,6 @@ class Parser {
             return self::parseNumber($tokens);
         }
         throw new ParserException("Parse error: expected digit or identifier, got: " . $tokens->current()->getValue());
-    }
-
-    private static function parseEchoStatement(SkippingWhitespacesIterator $tokens): ?EchoNode {
-        $tokens->advance();
-        $argument = self::parseScalar($tokens);
-        return new EchoNode($argument);
     }
 
     private static function parseVariable(SkippingWhitespacesIterator $tokens): ?VariableNode {

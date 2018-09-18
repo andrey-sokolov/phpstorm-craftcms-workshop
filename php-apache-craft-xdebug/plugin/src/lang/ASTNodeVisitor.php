@@ -22,10 +22,6 @@ abstract class ASTNodeVisitor {
 
     }
 
-    public function visitEcho(EchoNode $node) {
-
-    }
-
     public function visitVariable(VariableNode $node) {
 
     }
