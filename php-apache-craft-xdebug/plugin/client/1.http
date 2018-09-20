@@ -16,7 +16,7 @@ client.global.set("location", location);
 
 ###
 GET {{location}}
-Content-Type: text/plain
+Accept: application/json
 
 ###
 #POST http://localhost:80/api/item
