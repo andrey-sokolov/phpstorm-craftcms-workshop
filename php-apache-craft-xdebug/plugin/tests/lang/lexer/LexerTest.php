@@ -34,7 +34,7 @@ class LexerTest extends TestCase {
             ["/", TokenTypes::DIVIDE],
             ["*", TokenTypes::MULTIPLY],
             ["=", TokenTypes::EQUALS],
-            ["echo", TokenTypes::IDENTIFIER],
+            ["echo", TokenTypes::ECHO],
             ["echoecho", TokenTypes::IDENTIFIER],
         ];
     }
@@ -65,7 +65,7 @@ class LexerTest extends TestCase {
             TokenTypes::WHITESPACE,
             TokenTypes::NUMBER,
             TokenTypes::WHITESPACE,
-            TokenTypes::IDENTIFIER,
+            TokenTypes::ECHO,
             TokenTypes::WHITESPACE,
             TokenTypes::EQUALS,
             TokenTypes::WHITESPACE,
