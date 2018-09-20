@@ -9,7 +9,7 @@
 namespace lang\lexer;
 
 use PHPUnit\Framework\TestCase;
-use workshop\lang\lexer\Lexer;
+use workshop\lang\lexer\Scanner;
 use workshop\lang\lexer\TokenTypes;
 
 class LexerTest extends TestCase {
@@ -18,7 +18,7 @@ class LexerTest extends TestCase {
      */
     public function testParseBasicTokens($tokenValue, $tokenType)
     {
-        $tokens = Lexer::parseTokens($tokenValue);
+        $tokens = Scanner::parseTokens($tokenValue);
         $this->assertEquals(1, count($tokens));
         $this->assertEquals($tokenType, $tokens[0]->getType());
     }
@@ -40,11 +40,11 @@ class LexerTest extends TestCase {
     }
 
     /**
-     * @covers \workshop\lang\lexer\Lexer
+     * @covers \workshop\lang\lexer\Scanner
      */
     public function testParseCompositionOfTokens()
     {
-        $tokens = Lexer::parseTokens("ab + - / * 12 echo =   ");
+        $tokens = Scanner::parseTokens("ab + - / * 12 echo =   ");
         $array_map = array_map(function ($token) {
             return $token->getType();
         }, $tokens);
@@ -92,7 +92,7 @@ class LexerTest extends TestCase {
     }
 
     public function testIdentifierStartsWithAlpha() {
-        $tokens = Lexer::parseTokens("1a1");
+        $tokens = Scanner::parseTokens("1a1");
         $this->assertEquals(TokenTypes::NUMBER, $tokens[0]->getType());
         $this->assertEquals("1", $tokens[0]->getValue());
 

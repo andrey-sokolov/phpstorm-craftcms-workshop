@@ -10,7 +10,7 @@ namespace lang\parser;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
-use workshop\lang\lexer\Lexer;
+use workshop\lang\lexer\Scanner;
 use workshop\lang\lexer\TokenTypes;
 use workshop\lang\parser\nodes\AssignmentNode;
 use workshop\lang\parser\nodes\BinaryStatementNode;
@@ -22,7 +22,7 @@ use workshop\lang\parser\Parser;
 class ParserTest extends TestCase {
     public function testParseBinaryStatement()
     {
-        $tokens = Lexer::parseTokens("a + 2");
+        $tokens = Scanner::parseTokens("a + 2");
         $fileNode = Parser::parse($tokens);
         $children = $fileNode->getChildren();
         /** @var BinaryStatementNode $binaryStatementNode */
@@ -35,7 +35,7 @@ class ParserTest extends TestCase {
      * @covers \workshop\lang\parser\Parser::parseScalar
      */
     public function testNestedBinaryStatement() {
-        $tokens = Lexer::parseTokens("3 - a + 2");
+        $tokens = Scanner::parseTokens("3 - a + 2");
         $fileNode = Parser::parse($tokens);
         $children = $fileNode->getChildren();
         /** @var BinaryStatementNode $binaryStatementNode */
@@ -53,7 +53,7 @@ class ParserTest extends TestCase {
     }
 
     public function testParseAssignment() {
-        $tokens = Lexer::parseTokens("a = 1");
+        $tokens = Scanner::parseTokens("a = 1");
         $fileNode = Parser::parse($tokens);
         $statements = $fileNode->getChildren();
         /** @var AssignmentNode $assignment */
@@ -66,7 +66,7 @@ class ParserTest extends TestCase {
     }
 
     public function testParseEcho() {
-        $tokens = Lexer::parseTokens("echo 1");
+        $tokens = Scanner::parseTokens("echo 1");
         $fileNode = Parser::parse($tokens);
         /** @var EchoNode $echo */
         $echo = $fileNode->getChildren()[0];
@@ -78,7 +78,7 @@ class ParserTest extends TestCase {
     }
 
     public function testInvalidExpression() {
-        $tokens = Lexer::parseTokens("a = echo 1");
+        $tokens = Scanner::parseTokens("a = echo 1");
         $this->expectException(Exception::class);
         Parser::parse($tokens);
     }

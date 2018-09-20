@@ -4,7 +4,7 @@ namespace workshop\lang\lexer;
 
 use workshop\lang\parser\ParserException;
 
-class Lexer {
+class Scanner {
     /**
      * @var Token[]
      */
@@ -25,7 +25,7 @@ class Lexer {
     private $startIndex = 0;
 
     public static function parseTokens($content) {
-        $lexer = new Lexer($content);
+        $lexer = new Scanner($content);
         $lexer->parse();
         return $lexer->tokens;
     }
