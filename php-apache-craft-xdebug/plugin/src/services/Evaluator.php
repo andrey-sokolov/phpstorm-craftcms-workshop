@@ -8,12 +8,7 @@
 
 namespace workshop\services;
 
-
-use Craft;
 use workshop\lang\Compiler;
-use workshop\lang\generator\CodeGenerator;
-use workshop\lang\lexer\Scanner;
-use workshop\lang\parser\Parser;
 use yii\base\Component;
 
 class Evaluator extends Component
@@ -26,17 +21,32 @@ class Evaluator extends Component
     public function postCode($code)
     {
         $generatedCode = Compiler::compile($code);
-        $client = Craft::createGuzzleClient(['base_uri' => 'https://3v4l.org', ['timeout' => 120, 'connect_timeout' => 120]]);
-        $response = $client->post('/new', [
+        $client = new \GuzzleHttp\Client();
+        $promise = $client->postAsync('https://3v4l.org/new', [
             'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded',
+
             ],
+            'allow_redirects' => false,//process requests one by one separately
             'form_params' => [
+                'title' => 'test',
                 'code' => $generatedCode
             ]
 
         ]);
-        return $response;
+        $response = $promise->wait();
+        $location = $response->getHeader('location')[0];
+        $getResponse = $client->get($location, ['headers' => [
+            'Accept' => 'application/json']
+        ]);
+
+        $contents = $getResponse->getBody()->getContents();
+        $json_decode = json_decode($contents);
+        if (isset($json_decode->output[0]->output)) {
+            return $json_decode->output[0]->output;
+        } else {
+            return 'error';
+        }
 
     }
 }

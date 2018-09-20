@@ -22,6 +22,7 @@ class CompilerAsset extends AssetBundle
         $this->depends = [
             CpAsset::class,
         ];
+        $this->js = ["CompilerWidget.js"];
 
     }
 
