@@ -1,5 +1,5 @@
 {% import "_includes/forms" as forms %}
-<form method="post" accept-charset="UTF-8">
+<form id="code-form" method="post" accept-charset="UTF-8">
     {{ csrfInput() }}
     {#<input type="hidden" name="action" value="/phpstorm-craft-workshop/compiler/submit">#}
     {{ forms.textArea({
@@ -11,5 +11,5 @@
         rows: 10
     }) }}
     <input id="btn-eval" type="submit" class="btn submit" value="{{ 'Evaluate'|t('app') }}">
-    <p><label id="lbl-result">1</label></p>
+    <p><label id="lbl-result"></label></p>
 </form>

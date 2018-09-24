@@ -1,10 +1,10 @@
 $(function () {
-    $("#btn-eval").on("click", function () {
-        var formBody = $("body");
+    $("#code-form").on("submit", function () {
         var formData = $("#code").val();
-        Craft.postActionRequest('phpstorm-craft-workshop/compiler/submit', {code: formData}, $.proxy(function (response) {
-            //todo write processor
-                }));
+        Craft.postActionRequest('phpstorm-craft-workshop/compiler/submit', {code: formData}, function (response) {
+                    console.log(arguments);
+                });
+        return false;
 
     });
 });

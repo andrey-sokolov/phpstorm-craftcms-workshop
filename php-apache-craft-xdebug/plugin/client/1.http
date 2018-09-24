@@ -18,6 +18,13 @@ client.global.set("location", location);
 GET {{location}}
 Accept: application/json
 
+
+> {%
+  client.test("Result is correct", function() {
+    client.assert(response.body["output"][0]["output"] === "2", "Fail" +response.body["output"][0]["output"]);
+  });
+%}
+
 ###
 #POST http://localhost:80/api/item
 #Content-Type: application/x-www-form-urlencoded

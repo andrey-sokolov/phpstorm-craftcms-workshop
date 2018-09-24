@@ -25,9 +25,8 @@ class Evaluator extends Component
         $promise = $client->postAsync('https://3v4l.org/new', [
             'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded',
-
             ],
-            'allow_redirects' => false,//process requests one by one separately
+            'allow_redirects' => false,
             'form_params' => [
                 'title' => 'test',
                 'code' => $generatedCode
@@ -36,11 +35,22 @@ class Evaluator extends Component
         ]);
         $response = $promise->wait();
         $location = $response->getHeader('location')[0];
-        $getResponse = $client->get($location, ['headers' => [
+
+        $handler_stack = \GuzzleHttp\HandlerStack::create();
+        $handler_stack->push(\GuzzleHttp\Middleware::retry(function ($retry, $request, $response) use (&$contents) {
+
+            $body = $response->getBody();
+            $contents = $body->getContents();
+            $json_decode = json_decode($contents);
+
+            return $retry < 3 && empty($json_decode->output);
+        }, function ($retries) {
+            return 2 ** $retries * 1000;
+        }));
+        $client = new \GuzzleHttp\Client(['handler' => $handler_stack]);
+        $client->get($location, ['headers' => [
             'Accept' => 'application/json']
         ]);
-
-        $contents = $getResponse->getBody()->getContents();
         $json_decode = json_decode($contents);
         if (isset($json_decode->output[0]->output)) {
             return $json_decode->output[0]->output;
