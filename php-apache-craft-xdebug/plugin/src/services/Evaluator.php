@@ -8,8 +8,10 @@
 
 namespace workshop\services;
 
+use Psr\Http\Message\ResponseInterface;
 use workshop\lang\Compiler;
 use yii\base\Component;
+use yii\web\Response;
 
 class Evaluator extends Component
 {
@@ -29,7 +31,7 @@ class Evaluator extends Component
             'allow_redirects' => false,
             'form_params' => [
                 'title' => 'test',
-                'code' => $generatedCode
+                'code' => $code
             ]
 
         ]);
@@ -37,13 +39,12 @@ class Evaluator extends Component
         $location = $response->getHeader('location')[0];
 
         $handler_stack = \GuzzleHttp\HandlerStack::create();
-        $handler_stack->push(\GuzzleHttp\Middleware::retry(function ($retry, $request, $response) use (&$contents) {
+        $handler_stack->push(\GuzzleHttp\Middleware::retry(function ($retry, $request, ResponseInterface $response) use (&$contents) {
 
             $body = $response->getBody();
             $contents = $body->getContents();
             $json_decode = json_decode($contents);
-
-            return $retry < 3 && empty($json_decode->output);
+            return $retry < 3 && (empty($json_decode->output) || $response->getStatusCode() == 500);
         }, function ($retries) {
             return 2 ** $retries * 1000;
         }));
