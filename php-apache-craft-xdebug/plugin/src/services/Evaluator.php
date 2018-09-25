@@ -11,7 +11,6 @@ namespace workshop\services;
 use Psr\Http\Message\ResponseInterface;
 use workshop\lang\Compiler;
 use yii\base\Component;
-use yii\web\Response;
 
 class Evaluator extends Component
 {
@@ -31,7 +30,7 @@ class Evaluator extends Component
             'allow_redirects' => false,
             'form_params' => [
                 'title' => 'test',
-                'code' => $code
+                'code' => $generatedCode
             ]
 
         ]);
