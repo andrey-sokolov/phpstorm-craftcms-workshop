@@ -14,11 +14,6 @@ use yii\base\Component;
 
 class Evaluator extends Component
 {
-    /**
-     * @param $code
-     * @return mixed|\Psr\Http\Message\ResponseInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
     public function postCode($code)
     {
         $generatedCode = Compiler::compile($code);
