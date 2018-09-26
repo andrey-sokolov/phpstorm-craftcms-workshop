@@ -2,7 +2,7 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/php-apache-craft-xdebug/plugin/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/php-apache-craft-xdebug/plugin/src" isTestSource="false" packagePrefix="workshop" />
       <sourceFolder url="file://$MODULE_DIR$/php-apache-craft-xdebug/plugin/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/cebe/markdown" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
